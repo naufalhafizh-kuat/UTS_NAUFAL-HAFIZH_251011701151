@@ -2,10 +2,7 @@
 @section('title', $produk->name)
 
 @section('content')
-@php
-    $fav  = in_array($produk->id, session('favorit', []));
-    $baru = $produk->id >= 9;
-@endphp
+@php $baru = $produk->id >= 9; @endphp
 
 <div class="container mt-4">
     <nav aria-label="breadcrumb">
@@ -30,30 +27,19 @@
             <p class="harga-besar">Rp {{ number_format($produk->price, 0, ',', '.') }}</p>
             <p class="fs-6 text-secondary">{{ $produk->description }}</p>
 
-            <form method="POST" action="{{ route('tas.tambah', $produk->id) }}">
-                @csrf
-                <div class="mb-4">
-                    <div class="fw-bold text-uppercase mb-2" style="letter-spacing: 2px; font-size: .9rem;">Pilih Ukuran</div>
-                    @foreach (['S', 'M', 'L', 'XL'] as $u)
-                        <input type="radio" class="btn-check" name="ukuran" value="{{ $u }}" id="ukuran{{ $u }}" autocomplete="off" @checked($loop->first)>
-                        <label class="btn btn-outline-mono me-2 py-2 px-4" for="ukuran{{ $u }}">{{ $u }}</label>
-                    @endforeach
-                </div>
-                <div class="d-grid mb-2">
-                    <button type="submit" class="btn btn-emas py-3 fs-6">Tambah ke Tas</button>
-                </div>
-            </form>
-
-            <form method="POST" action="{{ route('favorit.toggle', $produk->id) }}" class="d-grid mb-4">
-                @csrf
-                <button type="submit" class="btn btn-outline-mono py-2">{{ $fav ? '♥ Hapus dari Favorit' : '♡ Simpan ke Favorit' }}</button>
-            </form>
+            <p class="mb-1 fw-bold text-uppercase" style="letter-spacing: 2px; font-size: .9rem;">Ukuran tersedia</p>
+            <p class="mb-4">S, M, L, XL</p>
 
             <ul class="info-mini">
-                <li>Gratis ongkir untuk belanja minimal Rp 499.000</li>
-                <li>Retur mudah maksimal 14 hari</li>
                 <li>Bahan nyaman dan awet dipakai</li>
+                <li>Model sederhana, mudah dipadukan</li>
+                <li>Kategori: {{ $produk->category }}</li>
             </ul>
+
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                <a href="{{ route('produk.index', ['kategori' => $produk->category]) }}" class="btn btn-mono">&larr; Kembali ke {{ $produk->category }}</a>
+                <a href="{{ route('produk.index') }}" class="btn btn-outline-mono">Semua Produk</a>
+            </div>
 
             <div class="accordion accordion-flush border-top" id="info">
                 <div class="accordion-item">
@@ -66,10 +52,10 @@
                 </div>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed text-uppercase fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#a2">Pengiriman &amp; Pengembalian</button>
+                        <button class="accordion-button collapsed text-uppercase fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#a2">Perawatan</button>
                     </h2>
                     <div id="a2" class="accordion-collapse collapse" data-bs-parent="#info">
-                        <div class="accordion-body">Gratis ongkir untuk belanja minimal Rp 499.000, selain itu ongkir Rp 20.000. Pengembalian barang maksimal 14 hari setelah diterima.</div>
+                        <div class="accordion-body">Cuci dengan air dingin, jangan gunakan pemutih, dan setrika dengan suhu sedang agar bahan tetap awet.</div>
                     </div>
                 </div>
             </div>
