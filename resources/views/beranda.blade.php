@@ -3,14 +3,13 @@
 
 @section('content')
 @php
-    // Foto hero: hero-1.jpg, hero-2.jpg, hero-3.jpg (di public/assets/images)
     $foto = fn ($n) => file_exists(public_path("assets/images/$n.jpg")) ? asset("assets/images/$n.jpg") : null;
 
     $slides = [
         ['foto' => $foto('hero-1'), 'bg' => '#101010', 'tag' => 'Koleksi Terbaru',
          'judul' => 'Gaya Baru,<br><em>Percaya Diri</em> Baru',
          'teks' => 'Baju dan celana pilihan dengan bahan nyaman dan potongan rapi untuk keseharianmu.',
-         'url' => route('produk.index'), 'label' => 'Belanja Sekarang'],
+         'url' => route('produk.index'), 'label' => 'Lihat Produk'],
         ['foto' => $foto('hero-2'), 'bg' => '#1f1810', 'tag' => 'Essentials',
          'judul' => 'Kaos Basic<br>untuk <em>Setiap Hari</em>',
          'teks' => 'Kaos polos berkualitas yang mudah dipadukan dengan apa saja.',
@@ -22,7 +21,6 @@
     ];
 @endphp
 
-{{-- Hero carousel --}}
 <div id="hero" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
         @foreach ($slides as $i => $s)
@@ -55,31 +53,29 @@
     </button>
 </div>
 
-{{-- Keunggulan --}}
 <section class="keunggulan">
     <div class="container">
         <div class="row g-0">
             <div class="col-6 col-lg-3"><div class="item">
-                <div class="bulat"><svg viewBox="0 0 24 24"><path d="M2 7h11v9H2zM13 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg></div>
-                <div><b>Gratis Ongkir</b><small>Min. belanja Rp 499.000</small></div>
-            </div></div>
-            <div class="col-6 col-lg-3"><div class="item">
-                <div class="bulat"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></div>
-                <div><b>Retur 14 Hari</b><small>Mudah dan tanpa ribet</small></div>
-            </div></div>
-            <div class="col-6 col-lg-3"><div class="item">
-                <div class="bulat"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-                <div><b>Pembayaran Aman</b><small>Transfer, COD, E-Wallet</small></div>
-            </div></div>
-            <div class="col-6 col-lg-3"><div class="item">
                 <div class="bulat"><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></div>
                 <div><b>Kualitas Terjamin</b><small>Bahan nyaman dan awet</small></div>
+            </div></div>
+            <div class="col-6 col-lg-3"><div class="item">
+                <div class="bulat"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9-9 9z"/></svg></div>
+                <div><b>Model Terbaru</b><small>Koleksi baru tiap minggu</small></div>
+            </div></div>
+            <div class="col-6 col-lg-3"><div class="item">
+                <div class="bulat"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div>
+                <div><b>Harga Bersahabat</b><small>Terjangkau untuk semua</small></div>
+            </div></div>
+            <div class="col-6 col-lg-3"><div class="item">
+                <div class="bulat"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+                <div><b>Banyak Pilihan</b><small>Kaos, kemeja, jeans, dan lainnya</small></div>
             </div></div>
         </div>
     </div>
 </section>
 
-{{-- Belanja per kategori --}}
 <section class="container mt-5 pt-4">
     <div class="judul-bagian"><span>Jelajahi</span><h2>Belanja per Kategori</h2></div>
     <div class="row g-4 justify-content-center">
@@ -95,7 +91,6 @@
     </div>
 </section>
 
-{{-- Barang baru --}}
 <section class="container mt-5 pt-4">
     <div class="judul-bagian"><span>Terbaru</span><h2>Barang Baru</h2></div>
     <div class="row g-4">
@@ -110,33 +105,13 @@
     </div>
 </section>
 
-{{-- Banner member --}}
-<section class="banner-member mt-5 py-5">
-    <div class="container position-relative py-4">
-        <div class="angka d-none d-md-block">10%</div>
-        <div style="max-width: 620px; position: relative; z-index: 1;">
-            <span class="tag d-inline-block mb-3" style="background: var(--emas); color: #000; font-weight: 700; letter-spacing: 3px; font-size: .82rem; padding: 6px 16px;">KEANGGOTAAN</span>
-            @auth
-                <h2>Halo, <em>{{ Str::before(Auth::user()->name, ' ') }}</em>!</h2>
-                <p class="fs-5 text-light mb-4">Terima kasih sudah menjadi member {{ config('app.name') }}. Nikmati koleksi terbaru kami.</p>
-                <a href="{{ route('produk.index') }}" class="btn btn-emas">Belanja Sekarang</a>
-            @else
-                <h2>Diskon <em>10%</em> untuk Member Baru</h2>
-                <p class="fs-5 text-light mb-4">Daftar gratis sekarang dan dapatkan penawaran khusus untuk pembelian pertamamu.</p>
-                <a href="{{ route('daftar') }}" class="btn btn-emas">Daftar Sekarang</a>
-            @endauth
-        </div>
-    </div>
-</section>
-
-{{-- Testimoni --}}
-<section class="testi py-5 mt-0">
+<section class="testi py-5 mt-5">
     <div class="container py-3">
         <div class="judul-bagian"><span>Testimoni</span><h2>Kata Mereka</h2></div>
         <div class="row g-4">
             @foreach ([
-                ['Rina, Jakarta', 'Bahannya adem dan jahitannya rapi. Kaos hitamnya sudah saya beli dua kali, pengiriman juga cepat!'],
-                ['Dimas, Bandung', 'Ukurannya pas sesuai pilihan. Jeans barrel-nya nyaman dipakai seharian dan modelnya kekinian.'],
+                ['Rina, Jakarta', 'Bahannya adem dan jahitannya rapi. Kaos hitamnya sudah saya beli dua kali.'],
+                ['Dimas, Bandung', 'Ukurannya pas. Jeans barrel-nya nyaman dipakai seharian dan modelnya kekinian.'],
                 ['Alya, Surabaya', 'Hoodie-nya tebal dan hangat, warnanya sesuai foto. Pasti belanja lagi di sini.'],
             ] as $t)
                 <div class="col-md-4">
@@ -151,22 +126,5 @@
     </div>
 </section>
 
-{{-- Newsletter --}}
-<section class="newsletter py-5">
-    <div class="container py-2">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-6">
-                <h3>Dapatkan Info &amp; Promo Terbaru</h3>
-                <p class="mb-0 fs-5">Berlangganan newsletter {{ config('app.name') }} untuk kabar koleksi baru dan penawaran eksklusif.</p>
-            </div>
-            <div class="col-lg-6">
-                <form method="POST" action="{{ route('newsletter') }}" class="d-flex flex-column flex-sm-row gap-2">
-                    @csrf
-                    <input type="email" name="email_newsletter" class="form-control form-control-lg" placeholder="Masukkan email kamu" required>
-                    <button type="submit" class="btn btn-mono px-4">Berlangganan</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+@includeIf('partials.identitas')
 @endsection
